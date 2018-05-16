@@ -1,5 +1,7 @@
 #!/bin/echo Source me don't execute me 
 
+library(parallelDist)
+
 if (!exists("gform"))            gform            <- "uneak"
 if (!exists("genofile"))         genofile         <- "HapMap.hmc.txt"
 if (!exists("sampdepth.thresh")) sampdepth.thresh <- 0.01
@@ -631,9 +633,9 @@ calcG <- function(snpsubset, sfx = "", puse, indsubset, depth.min = 0, depth.max
      # } else {
        png(paste0("Heatmap-G5", sfx, ".png"), width = 2000, height = 2000, pointsize = cex.pointsize *  18)
        if(length(table(pcacolo)) > 1) {
-         hmout <- heatmap(temp, col = rev(heat.colors(50)), ColSideColors=pcacolo, RowSideColors=pcacolo, symm=T, revC=F)
+         hmout <- heatmap(temp, col = rev(heat.colors(50)), ColSideColors=pcacolo, RowSideColors=pcacolo, symm=T, revC=F, distfun=parDist)
        } else {
-         hmout <- heatmap(temp, col = rev(heat.colors(50)), symm=T, revC=F)
+         hmout <- heatmap(temp, col = rev(heat.colors(50)), symm=T, revC=F, distfun=parDist)
        }
        hmdat <- data.frame(rowInd=hmout$rowInd,seqIDInd=indsubset[pcasamps[hmout$rowInd]],seqID=seqID[indsubset[pcasamps[hmout$rowInd]]])
        write.csv(hmdat,paste0("HeatmapOrder", sfx, ".csv"),row.names=FALSE,quote=FALSE)
