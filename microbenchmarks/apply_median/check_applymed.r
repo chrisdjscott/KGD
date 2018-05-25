@@ -50,29 +50,6 @@ cppFunction(depends=c("RcppArmadillo"), plugins=c("openmp"), showOutput=cxx_verb
     }'
 )
 
-# Rcpp function using OpenMP and an Integer vector as the input (depth is integer)
-cppFunction(depends=c("RcppArmadillo"), plugins=c("openmp"), showOutput=cxx_verbose, '
-    Rcpp::IntegerVector arma_rowMediansOMPInt(const arma::imat &depth) {
-        // number of rows
-        int nrows = depth.n_rows;
-
-        // vector for storing the result
-        Rcpp::IntegerVector medvec(nrows);
-
-        // loop over the rows
-        #pragma omp parallel for
-        for (int i = 0; i < nrows; i++) {
-            // compute the median for this row
-            arma::irowvec row = depth.row(i);
-            medvec[i] = arma::median(row);
-        }
-
-        // make sure it is returned to R as a list, not matrix
-        medvec.attr("dim") = R_NilValue;
-        return medvec;
-    }'
-)
-
 # load data
 # if(outlevel > 4) sampdepth.med <<- apply(depth, 1, median)
 # save(sampdepth, depth, file = "sampdepth_med.rdata")
@@ -100,12 +77,6 @@ cmed3 <- arma_rowMediansOMP(depth)
 cat("cmed3", class(cmed3), typeof(cmed3), length(cmed3), dim(cmed3), "\n")
 stopifnot(all.equal(rmed, cmed3))
 rm(cmed3)
-
-# run OpenMP armadillo function
-cmed4 <- arma_rowMediansOMPInt(depth)
-cat("cmed4", class(cmed4), typeof(cmed4), length(cmed4), dim(cmed4), "\n")
-stopifnot(all.equal(rmed, cmed4))
-rm(cmed4)
 rm(rmed)
 
 # benchmark
@@ -114,6 +85,5 @@ microbenchmark(
     Arma=arma_rowMedians(depth),
     Arma2=arma_rowMedians2(depth),
     ArmaOMP=arma_rowMediansOMP(depth),
-    ArmaOMPInt=arma_rowMediansOMPInt(depth),
     times = 10
 )
