@@ -36,7 +36,6 @@ std::vector<double> arma_rowMedians(const arma::imat &depth) {
 // [[Rcpp::export]]
 std::vector<int> arma_rowMaximums(const arma::imat &mat) {
     const int nrows = mat.n_rows;
-    const int ncols = mat.n_cols;
 
     // create vector to store the result
     std::vector<int> maximums(nrows);
@@ -76,7 +75,7 @@ Rcpp::NumericMatrix depth2K(const Rcpp::NumericMatrix &A) {
 void assignP0P1Genon01(Rcpp::NumericMatrix &P0, Rcpp::NumericMatrix &P1, Rcpp::NumericMatrix &genon01,
         const Rcpp::LogicalMatrix &usegeno, const Rcpp::NumericMatrix &dsub) {
     // number of elements (assumes all inputs are the same size!)
-    long size = P0.rows() * P0.cols();
+    const long size = P0.rows() * P0.cols();
 
     // loop over elements in parallel
     #pragma omp parallel for
