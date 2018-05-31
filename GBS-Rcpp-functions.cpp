@@ -21,8 +21,11 @@ std::vector<double> arma_rowMedians(const arma::imat &depth) {
     // loop over the rows
     #pragma omp parallel for
     for (int i = 0; i < nrows; i++) {
+        // convert the row to double type, to compute median correctly
+        arma::rowvec row = arma::conv_to<arma::rowvec>::from(depth.row(i));
+
         // compute the median for this row
-        medians[i] = arma::median(depth.row(i));
+        medians[i] = arma::median(row);
     }
 
     return medians;
