@@ -33,8 +33,8 @@ pathToCppFile = function() {
 library(Rcpp)
 cpp.path <- pathToCppFile()
 cat("Loading C++ functions:", cpp.path, "\n")
-sourceCpp(file = pathToCppFile(), showOutput = TRUE,
-          cacheDir = path.expand(file.path("~", "R", "RcppCache")))
+sourceCpp(file = cpp.path, showOutput = TRUE,
+          cacheDir = file.path(path.expand("~"), "R", "RcppCache"))
 
 readGBS <- function(genofilefn = genofile) {
  if (gform == "chip") readChip(genofilefn)
