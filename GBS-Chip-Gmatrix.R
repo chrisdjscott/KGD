@@ -727,7 +727,7 @@ calcG <- function(snpsubset, sfx = "", puse, indsubset, depth.min = 0, depth.max
        #htmlwidgets::saveWidget(temp_p, paste0("Heatmap-G5", sfx, ".html"))
      } else {
        png(paste0("Heatmap-G5", sfx, ".png"), width = 2000, height = 2000, pointsize = cex.pointsize *  18)
-       if (require(parallelDist)) {
+       if (require(parallelDist, quietly = TRUE)) {
          cat("Using parallelDist function in heatmap\n")
          distfun <- parDist
        }
