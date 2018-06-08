@@ -52,7 +52,7 @@ std::vector<int> arma_rowMaximums(const arma::imat &mat) {
 
 // C++ version of depth2K function
 // [[Rcpp::export]]
-Rcpp::NumericMatrix depth2K(const Rcpp::NumericMatrix &A) {
+Rcpp::NumericMatrix arma_depth2K(const Rcpp::NumericMatrix &A) {
     // create the output matrix (same size as input)
     Rcpp::NumericMatrix Aout(A.rows(), A.cols());
 
