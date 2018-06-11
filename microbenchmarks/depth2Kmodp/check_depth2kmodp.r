@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-# requires packages: microbenchmark, Rcpp, RcppEigen and RcppArmadillo
+# requires packages: microbenchmark, Rcpp
 
 library(Rcpp)
 library(microbenchmark)
